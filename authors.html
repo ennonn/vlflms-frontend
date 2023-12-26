@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" /> 
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="" />
+    <meta name="author" content="" />
+
+    <title>Authors</title>
+
+    <link rel="icon" type="image/x-icon" href="/assets/img/homelogo.png" />
+
+    <link href="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/style.min.css" rel="stylesheet" />
+    <link href="css/styles.css" rel="stylesheet" />
+    <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
+
+    <script type="module" src="./js/system/authors.js"></script>
+    <script src="js/utils/scripts.js" defer></script>
+</head>
+
+<body class="sb-nav-fixed">
+    <!-- Top Navigation -->
+    <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
+        <!-- Navbar Brand-->
+        <a class="navbar-brand ps-3 bg-success" href="index.html">VLFLMS</a>
+        <!-- Sidebar Toggle-->
+        <button class="btn btn-link btn-sm order-1 order-lg-0 me-4 me-lg-0" id="sidebarToggle" href="#!">
+            <i class="fas fa-bars"></i>
+        </button>
+        <!-- Navbar Search-->
+        <form class="d-none d-md-inline-block form-inline ms-auto me-0 me-md-3 my-2 my-md-0"></form>
+        <!-- Navbar-->
+        <ul class="navbar-nav ms-auto ms-md-0 me-3 me-lg-4">
+            <li class="nav-item dropdown">
+            <li>
+                <div class="justify-content-center bg-warning">
+                    <div class="small">Logged in as:</div>
+                    <span id="user_logged"></span>
+                </div>
+            </li>
+            <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown"
+                aria-expanded="false"><i class="fas fa-user fa-fw"></i></a>
+            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                <!-- <li><hr class="dropdown-divider" /></li> -->
+                <li><a class="dropdown-item" href="#" id="btn_logout">Logout</a></li>
+            </ul>
+            </li>
+        </ul>
+    </nav>
+    <!-- End of Top Navigation -->
+
+    <div id="layoutSidenav">
+        <!-- Side Navigation -->
+        <div id="layoutSidenav_nav">
+            <nav class="sb-sidenav accordion sb-sidenav-dark" id="sidenavAccordion">
+                <div class="sb-sidenav-menu">
+                    <div class="nav">
+                        <a class="nav-link" href="dashboard.html">
+                            <div class="sb-nav-link-icon">
+                                <i class="fas fa-gauge"></i>
+                            </div>
+                            Dashboard
+                        </a>
+
+                        <!-- Admin Pages -->
+                        <div id="nav_admin_pages"></div>
+
+                        <div class="sb-sidenav-menu-heading">Pages</div>
+                        <a class="nav-link" href="books.html">
+                            <div class="sb-nav-link-icon">
+                                <i class="fas fa-note-sticky"></i>
+                            </div>
+                            Books
+                        </a>
+                        <a class="nav-link" href="authors.html">
+                            <div class="sb-nav-link-icon">
+                                <i class="fas fa-note-sticky"></i>
+                            </div>
+                            Authors
+                        </a>
+                        <a class="nav-link" href="genres.html">
+                            <div class="sb-nav-link-icon">
+                                <i class="fas fa-note-sticky"></i>
+                            </div>
+                            Genres
+                        </a>
+                    </div>
+                </div>
+            </nav>
+        </div>
+        <!-- End of Side Navigation -->
+
+        <div id="layoutSidenav_content">
+            <main>
+                <!-- Content -->
+                <div class="container-fluid px-4">
+                    <h1 class="mt-4 text-center text-bg-success">Authors</h1>
+                    <ol class="breadcrumb mb-4">
+                        <li class="breadcrumb-item">System</li>
+                        <li class="breadcrumb-item active">Authors</li>
+                    </ol>
+                    <div class="row">
+                        <!-- Modal Btn and Form -->
+                        <div class="col-sm-12">
+                            <!-- Modal -->
+                            <div class="modal fade" id="form_modal" data-bs-backdrop="static" data-bs-keyboard="false"
+                                tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                                <div class="modal-dialog modal-lg">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h1 class="modal-title fs-5" id="staticBackdropLabel">
+                                                Authors Form
+                                            </h1>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                aria-label="Close"></button>
+                                        </div>
+                                        <!-- Authors Form -->
+                                        <form id="form_author">
+                                            <!-- Modal Body -->
+                                            <div class="modal-body">
+                                                <!-- User Id Field -->
+                                                <input type="hidden" name="user_id" id="user_id" />
+                                                <!-- Author First Name Field -->
+                                                <div class="row mb-3">
+                                                    <div class="col-sm-12">
+                                                        <input class="form-control" type="text" name="first_name"
+                                                            id="first_name" placeholder="First Name" required />
+                                                    </div>
+                                                </div>
+                                                <!-- Author Last Name Field -->
+                                                <div class="row mb-3">
+                                                    <div class="col-sm-12">
+                                                        <input class="form-control" type="text" name="last_name"
+                                                            id="last_name" placeholder="Last Name" required />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!-- Modal Footer -->
+                                            <div class="modal-footer">
+                                                <button id="modal_close" type="button" class="btn btn-danger"
+                                                    data-bs-dismiss="modal">
+                                                    Close
+                                                </button>
+                                                <button
+                                                    class="btn btn-primary w-25 d-flex align-items-center justify-content-center"
+                                                    type="submit">
+                                                    Submit
+                                                </button>
+                                            </div>
+                                        </form>
+                                        <!-- End Authors Form -->
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- End Modal -->
+
+                            <!-- Search Form -->
+                            <form id="form_search">
+                                <div class="row">
+                                    <div class="col-sm-8 mb-1">
+                                        <input class="form-control" type="text" name="keyword"
+                                            placeholder="Search Author" />
+                                    </div>
+                                    <div class="col-sm-2 d-flex justify-content-center mb-1">
+                                        <button class="btn btn-success w-100" type="submit">
+                                            Search
+                                        </button>
+                                    </div>
+                                    <div class="col-sm-2 d-flex justify-content-center mb-1">
+                                        <!-- Button trigger modal -->
+                                        <button id="modal_show" type="button" class="btn btn-warning w-100"
+                                            data-bs-toggle="modal" data-bs-target="#form_modal">
+                                            Add Author
+                                        </button>
+                                        <!-- End Button trigger modal  -->
+                                    </div>
+                                </div>
+                            </form>
+
+                            <hr />
+                        </div>
+                    </div>
+
+                    <br />
+
+                    <!-- Notifications -->
+                    <div class="alert alert-success d-none" role="alert"></div>
+                    <div class="alert alert-danger d-none" role="alert"></div>
+
+                    <!-- Get All Data -->
+                    <div class="row pb-5" id="get_data">
+                        <div class="col-sm-12 d-flex justify-content-center align-items-center">
+                            <div class="spinner-grow text-success me-3" role="status"></div>
+                            <div class="spinner-grow text-success me-3" role="status"></div>
+                            <div class="spinner-grow text-success me-3" role="status"></div>
+                        </div>
+                    </div>
+
+                    <!-- Pagination of All Data -->
+                    <div class="d-flex justify-content-center">
+                        <nav aria-label="Page navigation example">
+                            <ul class="pagination" id="get_pagination"></ul>
+                        </nav>
+                    </div>
+                </div>
+                <!-- End of Content -->
+            </main>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
+        crossorigin="anonymous"></script>
+</body>
+
+</html>

@@ -1,0 +1,19 @@
+.world-of-wisdom {
+    color: #ffbf00;
+}
+
+.hometext{
+    display: block;
+    font-size: 5vw;
+    font-family: var(--font-rhodium-libre);
+    width: 80%;
+    height: 30%;
+    padding-top: 5%;
+    margin-top: 5%;
+}
+.homeimage{
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width:46%;
+  }
