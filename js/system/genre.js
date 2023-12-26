@@ -25,6 +25,36 @@ let total;
 // Initialize pagination controls
 const paginationElement = document.getElementById("get_pagination");
 
+getLoggedUser();
+// Logout Btn
+const btn_logout = document.getElementById("btn_logout");
+btn_logout.onclick = async () => {
+  // Access Logout API Endpoint
+  const response = await fetch(backendURL + "/api/logout", {
+    headers: {
+      Accept: "application/json",
+      Authorization: "Bearer " + localStorage.getItem("token"),
+      "ngrok-skip-browser-warning": "any",
+    },
+  });
+
+  // Get response if 200-299 status code
+  if (response.ok) {
+    // Clear Tokens
+    localStorage.clear();
+
+    successNotification("Logout Successful.");
+    // Redirect Page
+    window.location.pathname = "/";
+  }
+  // Get response if 400 or 500 status code
+  else {
+    const json = await response.json();
+
+    errorNotification(json.message, 10);
+  }
+};
+
 // Declare forUpdateId variable here
 let forUpdateId = "";
 function createGenreCard(genre) {
@@ -54,11 +84,12 @@ function createGenreCard(genre) {
   </div>`;
 }
 
-
 async function getGenres(url = "", keyword = "") {
   // Add Loading if pagination or search is used; Remove if not needed
   if (url !== "" || keyword !== "") {
-    document.getElementById("get_data").innerHTML = `<div class="col-sm-12 d-flex justify-content-center align-items-center">
+    document.getElementById(
+      "get_data"
+    ).innerHTML = `<div class="col-sm-12 d-flex justify-content-center align-items-center">
         <div class="spinner-border" role="status">
           <span class="visually-hidden">Loading...</span>
         </div>
@@ -78,7 +109,7 @@ async function getGenres(url = "", keyword = "") {
       headers: {
         Accept: "application/json",
         Authorization: "Bearer " + localStorage.getItem("token"),
-        'ngrok-skip-browser-warning': 'any'
+        "ngrok-skip-browser-warning": "any",
       },
     });
 
@@ -121,7 +152,6 @@ async function getGenres(url = "", keyword = "") {
     errorNotification("Error fetching data");
   }
 }
-
 
 /* async function getGenres(url = "", keyword = "") {
   // Add Loading if pagination or search is used; Remove if not needed
@@ -222,7 +252,10 @@ function updatePagination(data, keyword = "") {
   // Add page controls
   for (let i = 1; i <= data.last_page; i++) {
     addPaginationLink(
-      backendURL + "/api/genres?page=" + i + (keyword ? "&keyword=" + keyword : ""),
+      backendURL +
+        "/api/genres?page=" +
+        i +
+        (keyword ? "&keyword=" + keyword : ""),
       i.toString(),
       i === data.current_page
     );
@@ -231,7 +264,10 @@ function updatePagination(data, keyword = "") {
   // Add Next page control
   if (data.next_page_url) {
     addPaginationLink(
-      backendURL + "/api/genres?page=" + (data.current_page + 1) + (keyword ? "&keyword=" + keyword : ""),
+      backendURL +
+        "/api/genres?page=" +
+        (data.current_page + 1) +
+        (keyword ? "&keyword=" + keyword : ""),
       "Next"
     );
   }
@@ -271,7 +307,7 @@ const deleteAction = async (e) => {
     headers: {
       Accept: "application/json",
       Authorization: "Bearer " + localStorage.getItem("token"),
-      'ngrok-skip-browser-warning': 'any'
+      "ngrok-skip-browser-warning": "any",
     },
   });
 
@@ -317,7 +353,7 @@ const showGenreData = async (id) => {
     headers: {
       Accept: "application/json",
       Authorization: "Bearer " + localStorage.getItem("token"),
-      'ngrok-skip-browser-warning': 'any'
+      "ngrok-skip-browser-warning": "any",
     },
   });
 
@@ -351,12 +387,12 @@ form_genre.onsubmit = async (e) => {
   const headers = {
     Accept: "application/json",
     Authorization: "Bearer " + localStorage.getItem("token"),
-    'Content-Type': 'application/json',
+    "Content-Type": "application/json",
   };
 
   // Get Values of Form (input, textarea, select) set it as form-data
   const formData = new FormData(form_genre);
-  const genreName = formData.get('genre_name'); // Get genre name from form data
+  const genreName = formData.get("genre_name"); // Get genre name from form data
 
   const requestBody = {
     name: genreName,
@@ -371,7 +407,7 @@ form_genre.onsubmit = async (e) => {
       method: "POST",
       headers: headers,
       body: JSON.stringify(requestBody),
-      'ngrok-skip-browser-warning': 'any'
+      "ngrok-skip-browser-warning": "any",
     });
   }
   // for Update
@@ -381,7 +417,7 @@ form_genre.onsubmit = async (e) => {
       method: "PUT",
       headers: headers,
       body: JSON.stringify(requestBody),
-      'ngrok-skip-browser-warning': 'any'
+      "ngrok-skip-browser-warning": "any",
     });
   }
 
@@ -426,13 +462,15 @@ form_genre.onsubmit = async (e) => {
 };
 
 // Update your event listener for pagination links
-document.getElementById("get_pagination").addEventListener("click", function (e) {
-  e.preventDefault();
-  if (e.target.tagName === "A" && !e.target.classList.contains("active")) {
-    currentPage = parseInt(e.target.textContent);
-    getGenres(backendURL + "/api/genres?page=" + currentPage);
-  }
-});
+document
+  .getElementById("get_pagination")
+  .addEventListener("click", function (e) {
+    e.preventDefault();
+    if (e.target.tagName === "A" && !e.target.classList.contains("active")) {
+      currentPage = parseInt(e.target.textContent);
+      getGenres(backendURL + "/api/genres?page=" + currentPage);
+    }
+  });
 
 // Initialize by getting the genres automatically when the page loads
 getGenres();
